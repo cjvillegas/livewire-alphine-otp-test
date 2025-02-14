@@ -29,7 +29,7 @@ class CreateUser extends Command implements PromptsForMissingInput
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $name = $this->argument('name');
         $email = $this->argument('email');
