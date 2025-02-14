@@ -42,10 +42,13 @@ class CreateUser extends Command implements PromptsForMissingInput
             ['email.unique' => 'The email address is already in use.']
         );
 
+        # the email validation fails
         if ($validator->fails()) {
             $this->error($validator->errors()->first());
+            return;
         }
 
+        # Create the user
         User::create([
             'name' => $name,
             'email' => $email,

@@ -19,6 +19,24 @@ class Otp extends Model
     const SHELF_LIFE = 15;
 
     /**
+     * @var string
+     */
+    const TYPE_EMAIL = 'email';
+
+    /**
+     * @var string
+     */
+    const TYPE_SMS = 'sms';
+
+    protected $fillable = [
+        'user_id',
+        'code',
+        'type',
+        'otp',
+        'expires_at',
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function user(): BelongsTo
