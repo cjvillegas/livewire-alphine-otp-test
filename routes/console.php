@@ -9,5 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 # Runs a scheduled command every six hours that will clean expired OTPs
-//Schedule::command('app:expired-otp-cleaner')->everySixHours();
-Schedule::command('app:expired-otp-cleaner')->everyMinute();
+Schedule::command('app:expired-otp-cleaner')->everySixHours();
