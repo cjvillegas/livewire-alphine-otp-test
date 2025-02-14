@@ -28,6 +28,9 @@ class Otp extends Model
      */
     const TYPE_SMS = 'sms';
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'user_id',
         'code',
