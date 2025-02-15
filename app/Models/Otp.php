@@ -40,6 +40,33 @@ class Otp extends Model
         'expires_at',
     ];
 
+    /*****************************
+     * HELPERS
+     ****************************/
+
+    /**
+     * Check if the OTP is used
+     *
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return !!$this->verified_at;
+    }
+
+    /**
+     * Checks if the OTP was expired
+     *
+     * @return bool
+     */
+    public function isExpired(): bool
+    {
+        return $this->expires_at < now();
+    }
+
+    /*****************************
+     * RELATIONS
+     ****************************/
     /**
      * @return BelongsTo
      */
@@ -48,6 +75,9 @@ class Otp extends Model
         return $this->belongsTo(User::class);
     }
 
+    /*****************************
+     * SCOPES
+     ****************************/
     /**
      * Scope a query to include only not expired records.
      *

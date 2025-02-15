@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Otp;
 use App\Models\User;
+use App\Services\OtpService;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
@@ -11,6 +11,9 @@ new class extends Component {
     #[Validate('numeric', message: 'OTP must only contain numeric characters')]
     public string $otp;
 
+    /**
+     * @var User
+     */
     public User $user;
 
     public function mount(): void
@@ -22,41 +25,26 @@ new class extends Component {
     {
         $this->validate();
 
-        $otp = Otp::where('user_id', $this->user->id)
-            ->where('code', $this->otp)
-            ->notExpired()
-            ->notUsed()
-            ->first();
+        $service = new OtpService();
+        $otp = $service->getRepository()->getValidOtp($this->user, $this->otp);
 
         if (!$otp) {
-            $expiredOtp = Otp::where('user_id', $this->user->id)
-                ->where('code', $this->otp)
-                ->expired()
-                ->first();
+            $possibleOtp = $service->findOtpByCode($this->user, $this->otp);
+            $returnBag = [];
 
-            if ($expiredOtp) {
-                $this->addError('opt', 'The OTP you provided is expired.');
-
-                return [
-                    'success' => false,
-                    'expired' => true
-                ];
-            }
-
-            $usedOtp = Otp::where('user_id', $this->user->id)
-                ->where('code', $this->otp)
-                ->used()
-                ->first();
-
-            if ($usedOtp) {
-                $this->addError('opt', 'OTP has been used.');
+            if ($possibleOtp?->isExpired()) {
+                $returnBag['expired'] = true;
+                $returnBag['message'] = 'The OTP you provided is expired. Please try again with a new one.';
+            } else if ($possibleOtp?->isUsed()) {
+                $returnBag['used'] = true;
+                $returnBag['message'] = 'OTP has been used. Please try again with a new one.';
             } else {
-                $this->addError('opt', 'Cannot verify OTP. Please make sure you entered the right combination.');
+                $returnBag['message'] = 'Cannot verify OTP. Please make sure you entered the right combination.';
             }
 
             return [
                 'success' => false,
-                'used' => true
+                ...$returnBag
             ];
         }
 
@@ -219,14 +207,15 @@ new class extends Component {
             async submitOtp() {
                 this.verifying = true;
 
-                @this.set('otp', this.inputs.join(''));
-                let response = await @this.call('verifyOtp');
+            @this.set('otp', this.inputs.join(''));
+            let response = await @this.call('verifyOtp');
 
                 if (response.success) {
                     this.notify('OTP verified successfully', 'success');
                     this.inputs = this.reset();
                     document.getElementById(`input-0`).focus();
                 } else {
+                    this.notify(response.message, 'error');
                     this.inputs = this.reset();
                     document.getElementById(`input-0`).focus();
                 }
