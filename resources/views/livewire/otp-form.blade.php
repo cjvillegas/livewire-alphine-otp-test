@@ -12,27 +12,18 @@ new class extends Component {
     public string $otp;
 
     /**
-     * @var User
-     */
-    public User $user;
-
-    public function mount(): void
-    {
-        $this->user = User::first();
-    }
-
-    /**
      * @return array|true[]
      */
     public function verifyOtp(): array
     {
         $this->validate();
+        $user = auth()->user();
 
         $service = new OtpService();
-        $otp = $service->getRepository()->getValidOtp($this->user, $this->otp);
+        $otp = $service->getRepository()->getValidOtp($user, $this->otp);
 
         if (!$otp) {
-            $possibleOtp = $service->findOtpByCode($this->user, $this->otp);
+            $possibleOtp = $service->findOtpByCode($this->otp);
             $returnBag = [];
 
             if ($possibleOtp?->isExpired()) {

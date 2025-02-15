@@ -45,12 +45,11 @@ class OtpService
      * Find an OTP by its code within a specific time frame for the authenticated user.
      *
      * @param string $code
-     * @param User $user
      *
      * @return Otp|null
      */
-    public function findOtpByCode(User $user, string $code): ?Otp
+    public function findOtpByCode(string $code): ?Otp
     {
-        return $this->repository->getOtpInAnHourFrequency($user, $code);
+        return $this->repository->getOtpInAnHourFrequency(auth()->user(), $code);
     }
 }
