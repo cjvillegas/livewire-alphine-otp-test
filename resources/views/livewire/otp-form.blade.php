@@ -21,7 +21,10 @@ new class extends Component {
         $this->user = User::first();
     }
 
-    public function verifyOtp()
+    /**
+     * @return array|true[]
+     */
+    public function verifyOtp(): array
     {
         $this->validate();
 
@@ -39,6 +42,7 @@ new class extends Component {
                 $returnBag['used'] = true;
                 $returnBag['message'] = 'OTP has been used. Please try again with a new one.';
             } else {
+                $returnBag['no_otp'] = true;
                 $returnBag['message'] = 'Cannot verify OTP. Please make sure you entered the right combination.';
             }
 

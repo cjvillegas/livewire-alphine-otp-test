@@ -47,7 +47,7 @@ class OtpRepositoryTest extends UnitBaseTest
 
     public function test_returns_null_when_otp_is_expired()
     {
-        $this->otp->update(['expires_at' => now()->subMinutes(1)]); # Set OTP to expired
+        $this->otp->update(['expires_at' => now()->subMinutes()]); # Set OTP to expired
         $expiredOtp = $this->otpRepository->getValidOtp($this->user, '123456');
         $this->assertNull($expiredOtp);
     }
