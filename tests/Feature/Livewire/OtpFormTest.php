@@ -142,7 +142,7 @@ class OtpFormTest extends TestCase
             'expires_at' => now()->addMinutes(Otp::SHELF_LIFE),
         ]);
 
-        # Test Livewire component with valid OTP
+        # Test with valid OTP
         Livewire::test('otp-form')
             ->set('otp', $otpCode)
             ->call('verifyOtp')
