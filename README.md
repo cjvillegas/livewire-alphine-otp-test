@@ -12,13 +12,21 @@
  - Run `php artisan key:generate`
 
 ## Testing
-[Explain how to run tests]
+ - Make sure that the application is running. In our case we are using docker. So make sure that the app is running in docker.
+ - Enter sail shell via `./vendor/bin/sail shell`
+ - Run `php artisan test`
+ - If you want to only run unit tests you can do `php artisan test --testsuite=Unit --stop-on-failure`
+ - If you want to only run feature tests you can do `php artisan test --testsuite=Unit --stop-on-failure`
 
 ## Assumptions
-[List any assumptions made during development]
+ - The first major assumption I had was "this gonna be easy", but viola! It is not
+ - 
 
 ## Additional Features
-[Describe any extra features implemented]
+ - Backspace will clear current field and will automatically focus the previous field
+ - Artisan command to generate user
+ - Artisan command to generate OTP
+ - Keyboard arrow navigation
 
 ## Technical Decisions
-[Explain key technical decisions made]
+ - I have to use Docker for ease of installation and distribution
