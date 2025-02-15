@@ -8,12 +8,16 @@ Route::get('/', function () {
     }
 
     return view('main');
-});
+})->middleware(['throttle:10,1']);
 
 Route::get('/login', function () {
     return view('main');
-})->name('login');
+})
+    ->middleware(['throttle:10,1'])
+    ->name('login');
 
 Route::get('/home', function () {
     return view('app');
-})->middleware(['auth'])->name('home');
+})
+    ->middleware(['auth', 'throttle:20,1'])
+    ->name('home');

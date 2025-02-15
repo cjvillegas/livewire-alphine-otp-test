@@ -2,6 +2,13 @@
     <div class="flex justify-center">
         <div class="w-full max-w-md">
             <div class="bg-white shadow-lg rounded-lg">
+                @if ($error)
+                    <div class="bg-red-100 text-red-700 p-4 rounded-md shadow-md mb-4 flex items-center">
+                        <!-- Message -->
+                        <span>{{ $error }}</span>
+                    </div>
+                @endif
+
                 <div class="bg-gray-100 p-4 rounded-t-lg">
                     <h4 class="text-xl font-semibold">Login</h4>
                 </div>

@@ -27,6 +27,9 @@
  - Artisan command to generate user
  - Artisan command to generate OTP
  - Keyboard arrow navigation
+ - Authentication logic
+ - Login form for users
+ - Unauthorized route protection
 
 ## Technical Decisions
  - I have to use Docker for ease of installation and distribution
