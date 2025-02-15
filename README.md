@@ -20,6 +20,7 @@
 
 ## Assumptions
  - The first major assumption I had was "this gonna be easy", but viola! It is not
+ - OTPs record in the DB should unique. Which means the `code` column in the `otps` table should not duplicate since we are deleting expired OPTs in a regular manner.
  - 
 
 ## Additional Features
